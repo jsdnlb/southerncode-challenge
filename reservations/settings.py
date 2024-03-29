@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'core',
     'properties',
+    'pricing_rules',
 ]
+
+REST_FRAMEWORK = {
+    "DATE_INPUT_FORMATS": ["%m-%d-%Y"],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
