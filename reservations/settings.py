@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core',
     'properties',
     'pricing_rules',
+    'bookings',
 ]
 
 REST_FRAMEWORK = {
