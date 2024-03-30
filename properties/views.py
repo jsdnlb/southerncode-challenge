@@ -21,6 +21,14 @@ class PropertyListView(ListAPIView):
 class PropertyDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+    lookup_url_kwarg = "pk"
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -34,11 +42,3 @@ class PropertyDetailView(RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-
-
-def get_object(self):
-    queryset = self.filter_queryset(self.get_queryset())
-    filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
-    obj = get_object_or_404(queryset, **filter_kwargs)
-    self.check_object_permissions(self.request, obj)
-    return obj
