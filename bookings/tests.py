@@ -75,7 +75,7 @@ class BookingCreateTestCase(APITestCase):
             ],
         )
 
-        # Setup case five
+        # Setup case six
         self.property_six = create_property_with_rules(
             property_data={"name": "House Case 6", "base_price": 12},
             rules_data=[

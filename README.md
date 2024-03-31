@@ -166,6 +166,6 @@ The final price should be 3 days * 12 base_price, plus a 10% increase => 39.6
         - stay length: 3 days
     - Pricing Rules
         1- min_stay_length: 3, price_modifier: 10
-        1- min_stay_length: 7, price_modifier: 10
+        1- min_stay_length: 7, price_modifier: -5
 
     - Final price: 39.6

@@ -5,11 +5,13 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from pricing_rules.models import PricingRule
 from pricing_rules.serializers import PricingRuleSerializer
+from pricing_rules.filters import PricingRuleFilter
 
 
 class PricingRuleListView(ListAPIView):
     queryset = PricingRule.objects.all()
     serializer_class = PricingRuleSerializer
+    filterset_class = PricingRuleFilter
 
     def post(self, request: Request, *args, **kwargs) -> Response:
         """

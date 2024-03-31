@@ -4,6 +4,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from bookings.models import Booking
 from bookings.serializers import BookingSerializer
+from bookings.filters import BookingFilter
 from bookings.utils import (
     calculate_final_price,
     calculate_stay_length,
@@ -14,6 +15,7 @@ from bookings.utils import (
 class BookingListView(ListAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    filterset_class = BookingFilter
 
     def post(self, request, *args, **kwargs):
         serializer = BookingSerializer(data=request.data)

@@ -3,6 +3,9 @@ from bookings.models import Booking
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateField(format="%m-%d-%Y", required=False)
+    end_date = serializers.DateField(format="%m-%d-%Y", required=False)
+
     class Meta:
         model = Booking
         fields = [

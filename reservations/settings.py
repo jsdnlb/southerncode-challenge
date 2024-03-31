@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
     'properties',
     'pricing_rules',
@@ -51,7 +52,8 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    "DATE_INPUT_FORMATS": ["%m-%d-%Y"],
+    'DATE_INPUT_FORMATS': ["%m-%d-%Y"],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 MIDDLEWARE = [

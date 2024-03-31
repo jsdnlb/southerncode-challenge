@@ -2,13 +2,15 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .models import Property
-from .serializers import PropertySerializer
+from properties.models import Property
+from properties.serializers import PropertySerializer
+from properties.filters import PropertyFilter
 
 
 class PropertyListView(ListAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+    filterset_class = PropertyFilter
 
     def post(self, request, *args, **kwargs):
         serializer = PropertySerializer(data=request.data)
