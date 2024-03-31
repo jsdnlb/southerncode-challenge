@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  web:
+    container_name: southern_code_challenge
+    build: .
+    command: "poetry run gunicorn reservations.wsgi"
+    volumes:
+      - .:/app
+    ports:
+      - "$PORT:$PORT"
