@@ -19,7 +19,6 @@ class BookingListView(ListAPIView):
         serializer = BookingSerializer(data=request.data)
         if serializer.is_valid():
             property = serializer.validated_data.get("property")
-            print(type(property))
             pricing_rules = get_pricing_rules(property)
             start_date = serializer.validated_data.get("start_date")
             end_date = serializer.validated_data.get("end_date")

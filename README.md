@@ -103,4 +103,69 @@ In this case the calculation is different, we have a rule that applies to a sing
 
     - Final price: 101     
 
+## Case 4
 
+In this case the base price of the property is 15.
+The booking will be 10 days long.
+There is a rule that indicates for stays bigger than 7 days, a 9% discount should be applied.
+There is also a rule for 01-04-2022 with a fixed price of 20
+There is also a rule for 01-05-2022 with a fixed price of 25
+In this case the calculation is different, we have a rule that applies for two days, and it is more important than other rules:
+
+1- The total stay length is bigger than 7, so rule 1 applies, but not to every day.
+2- For day 04, we apply rule 2 => 20
+3- For day 05, we apply rule 3 => 25
+4- For days 01 to 03 and 06 to 10, we apply rule 1: (price is 15 * 8 days) - discount=10.8
+5- Total price is = 154.2
+
+    - Property base_price = 15
+    - Booking:
+        - date_start: 01-01-2022
+        - date_end: 01-10-2022
+        - stay length: 10 days
+    - Pricing Rules
+        1- min_stay_length: 7, price_modifier: -9
+        2- specific_day: 01-04-2022, fixed_price: 20
+        3- specific_day: 01-05-2022, fixed_price: 25
+    - Final price: 154.2   
+
+## Case 5
+
+In this case the base price of the property is 10.1.
+The booking will be 44 days long.
+There is a rule that indicates for stays bigger than 7 days, a 10% discount should be applied. It should not be applied because there is another rule that covers it.
+There is a second rule that indicates for stays bigger than 30 days, a 20% discount should be applied.
+There is a third rule for stays bigger than 45 days, that rule should not apply, since the stay length is less than 45
+The final price should be 44 days * 10.1 base_price, minus a 20% discount => 355.52
+
+    - Property base_price = 10.1
+    - Booking:
+        - date_start: 01-01-2022
+        - date_end: 02-13-2022
+        - stay length: 44 days
+    - Pricing Rules
+        1- min_stay_length: 7, price_modifier: -10
+        2- min_stay_length: 30, price_modifier: -20
+        3- min_stay_length: 45, price_modifier: -30
+
+    - Final price: 355.52
+
+## Case 6
+
+In this test we will punish people who stay 3 days, increasing their bill by 10% and we will reward those who stay 7 days or more, a 10% discount (To test the invoice increase)
+In this case the base price of the property is 12.
+The booking will be 3 days long.
+There is a rule that indicates if the stay is greater than or equal to 3 days and less than 7 days, your bill will increase by 10%, in this case it applies
+There is a rule that indicates for stays bigger than 7 days, a 5% discount should be applied.
+The final price should be 3 days * 12 base_price, plus a 10% increase => 39.6
+
+    - Property base_price = 12
+    - Booking:
+        - date_start: 01-01-2022
+        - date_end: 01-03-2022
+        - stay length: 3 days
+    - Pricing Rules
+        1- min_stay_length: 3, price_modifier: 10
+        1- min_stay_length: 7, price_modifier: 10
+
+    - Final price: 39.6

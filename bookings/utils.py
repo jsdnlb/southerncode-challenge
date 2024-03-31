@@ -47,7 +47,7 @@ def calculate_final_price(
         if rule["specific_day"] and rule["fixed_price"]:
             if start_date <= rule["specific_day"] <= end_date:
                 final_price += rule["fixed_price"]
-                new_stay_length = stay_length - 1
+                new_stay_length = new_stay_length - 1
                 count_specific_day = True
 
         if rule["min_stay_length"] and rule["price_modifier"]:
@@ -59,4 +59,12 @@ def calculate_final_price(
                     final_price += price
                 else:
                     final_price = price
+
     return final_price
+
+
+def create_property_with_rules(property_data, rules_data):
+    property = Property.objects.create(**property_data)
+    for rule_data in rules_data:
+        PricingRule.objects.create(property=property, **rule_data)
+    return property
