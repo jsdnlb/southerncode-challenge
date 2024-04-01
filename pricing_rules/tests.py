@@ -7,7 +7,14 @@ from pricing_rules.serializers import PricingRuleSerializer
 
 
 class PricingRuleCreateTestCase(APITestCase):
+    """
+    Test case for the PricingRule API endpoints.
+    """
+
     def setUp(self):
+        """
+        Set up the test data, properties, princing rules and URLs.
+        """
         self.property = Property.objects.create(name="Test Property", base_price=10.0)
         self.list_url = reverse("pricing-rule-list")
         self.detail_url = reverse(
@@ -31,12 +38,18 @@ class PricingRuleCreateTestCase(APITestCase):
         }
 
     def test_get_pricing_rule_list(self):
+        """
+        Test getting a pricing rule.
+        """
         response = self.client.get(self.list_url)
         expected_data = PricingRuleSerializer([self.rule1, self.rule2], many=True).data
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_data)
 
     def test_create_pricing_rule(self):
+        """
+        Test creating a new pricing rule.
+        """
         response = self.client.post(self.list_url, self.rule_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(PricingRule.objects.filter(property=self.property).exists())
@@ -49,6 +62,9 @@ class PricingRuleCreateTestCase(APITestCase):
         self.assertEqual(PricingRule.objects.count(), 2)
 
     def test_update_pricing_rule(self):
+        """
+        Test updating a new pricing rule.
+        """
         response = self.client.put(self.detail_url, self.update_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.rule1.refresh_from_db()
@@ -58,6 +74,9 @@ class PricingRuleCreateTestCase(APITestCase):
         self.assertEqual(self.rule1.price_modifier, self.update_data["price_modifier"])
 
     def test_delete_pricing_rule(self):
+        """
+        Test removing a new pricing rule.
+        """
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(PricingRule.objects.filter(pk=self.rule1.pk).exists())

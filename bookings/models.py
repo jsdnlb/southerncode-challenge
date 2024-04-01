@@ -21,7 +21,9 @@ class Booking(models.Model):
     final_price = models.FloatField(null=True, blank=True)
     """final_price: Calculated final price"""
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False)
+    """created_at: Date of creation"""
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=False)
+    """updated_at: Date of update"""
 
     def __str__(self):
         return f"{self.id} - {self.property.name} - {self.final_price}"

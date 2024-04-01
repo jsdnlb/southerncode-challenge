@@ -9,19 +9,33 @@ from pricing_rules.filters import PricingRuleFilter
 
 
 class PricingRuleListView(ListAPIView):
+    """
+    View for listing and creating pricing rules.
+
+    Lists all existing pricing rules and allows creating new pricing rules
+    using the data provided in the request. Supports GET and POST methods.
+
+    Attributes:
+        queryset: Queryset returning all existing pricing rules.
+        serializer_class: Serializer used for serializing pricing rule data.
+        filterset_class: Filters available for filtering pricing rules.
+    """
+
     queryset = PricingRule.objects.all()
     serializer_class = PricingRuleSerializer
     filterset_class = PricingRuleFilter
 
     def post(self, request: Request, *args, **kwargs) -> Response:
         """
-        Method for the creation of pricing rules.
+        Accepts a POST request with JSON data representing the new pricing rule.
+        Validates the data and saves the new pricing rule to the database if valid.
 
         Args:
-            request (Request): The request object containing the data.
+            request (Request): The HTTP request object containing the data.
 
         Returns:
-            Response: The response object containing the serialized data or errors.
+            Response: The HTTP response object containing the serialized data
+            of the created pricing rule or errors if the data is invalid.
 
         Example:
             Example of request JSON:
@@ -41,25 +55,67 @@ class PricingRuleListView(ListAPIView):
 
 
 class PricingRuleDetailView(RetrieveUpdateDestroyAPIView):
+    """
+    Retrieves, updates, or deletes a single pricing rule instance identified
+    by its unique identifier. Supports GET, PUT, PATCH, and DELETE methods.
+
+    Attributes:
+        queryset: Queryset returning all existing pricing rules.
+        serializer_class: Serializer used for validating and deserializing
+            pricing rule data.
+        lookup_url_kwarg: Name of the URL keyword argument used to retrieve
+            the unique identifier of the pricing rule.
+    """
+
     queryset = PricingRule.objects.all()
     serializer_class = PricingRuleSerializer
     lookup_url_kwarg = "pk"
 
     def get_object(self):
+        """
+        Retrieves the pricing rule instance using the unique identifier provided
+        in the URL kwargs and checks the permissions before returning the instance.
+
+        Returns:
+            The pricing rule instance identified by its unique identifier.
+        """
         queryset = self.filter_queryset(self.get_queryset())
         filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
         obj = get_object_or_404(queryset, **filter_kwargs)
         self.check_object_permissions(self.request, obj)
         return obj
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request: Request, *args, **kwargs) -> Response:
+        """
+        Deletes the pricing rule instance identified by its unique identifier.
+        Returns a success message upon successful deletion.
+
+        Args:
+            request (Request): The HTTP request object.
+
+        Returns:
+            Response: The response object containing the success message and
+            the HTTP status code 200 (OK) upon successful deletion.
+        """
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(
             {"detail": "Record successfully deleted."}, status=status.HTTP_200_OK
         )
 
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request: Request, *args, **kwargs) -> Response:
+        """
+        Accepts a PATCH request with JSON data representing the partial update
+        of the pricing rule instance. Validates the data and performs the partial
+        update of the instance.
+
+        Args:
+            request (Request): The HTTP request object.
+
+        Returns:
+            Response: The response object containing the serialized data
+            of the updated pricing rule instance or errors if the data is invalid.
+        """
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)

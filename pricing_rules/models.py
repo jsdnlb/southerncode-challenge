@@ -22,7 +22,9 @@ class PricingRule(models.Model):
     specific_day = models.DateField(null=True, blank=True)
     """specific_day: A rule can apply to a specific date. Ex: Christmas"""
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False)
+    """created_at: Date of creation"""
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=False)
+    """updated_at: Date of update"""
 
     def __str__(self):
-        return f"{self.property.name} "
+        return f"{self.property.name}"

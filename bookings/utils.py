@@ -107,7 +107,7 @@ def calculate_final_price(
                 else:
                     final_price = price
 
-    if final_price == 0 and stay_length > 1 and base_price > 0.1:
+    if final_price == 0 and stay_length > 0 and base_price > 0:
         final_price = base_price * stay_length
 
     return round(final_price, 2)

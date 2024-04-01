@@ -3,6 +3,10 @@ from bookings.models import Booking
 
 
 class BookingFilter(django_filters.FilterSet):
+    """
+    Filter class for the Booking model.
+    """
+
     start_date = django_filters.DateFilter(
         field_name="start_date",
         lookup_expr=["exact", "lt", "gt"],

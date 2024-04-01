@@ -3,6 +3,10 @@ from properties.models import Property
 
 
 class PropertyFilter(django_filters.FilterSet):
+    """
+    Filter class for the PropertyFilter model.
+    """
+
     class Meta:
         model = Property
         fields = {

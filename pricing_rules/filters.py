@@ -3,6 +3,10 @@ from .models import PricingRule
 
 
 class PricingRuleFilter(django_filters.FilterSet):
+    """
+    Filter class for the PricingRule model.
+    """
+
     class Meta:
         model = PricingRule
         fields = {

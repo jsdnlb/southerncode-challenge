@@ -21,6 +21,14 @@ class BookingCreateTestCase(APITestCase):
         # Dates
         DAY_01_04_2022 = d.strptime("01-04-2022", "%m-%d-%Y").strftime("%Y-%m-%d")
         DAY_01_05_2022 = d.strptime("01-05-2022", "%m-%d-%Y").strftime("%Y-%m-%d")
+        self.START_01_01_2022_END_01_01_2022 = {
+            "start_date": "01-01-2022",
+            "end_date": "01-01-2022",
+        }
+        self.START_01_01_2022_END_01_03_2022 = {
+            "start_date": "01-01-2022",
+            "end_date": "01-03-2022",
+        }
         self.START_01_01_2022_END_01_10_2022 = {
             "start_date": "01-01-2022",
             "end_date": "01-10-2022",
@@ -28,10 +36,6 @@ class BookingCreateTestCase(APITestCase):
         self.START_01_01_2022_END_02_14_2022 = {
             "start_date": "01-01-2022",
             "end_date": "02-14-2022",
-        }
-        self.START_01_01_2022_END_01_03_2022 = {
-            "start_date": "01-01-2022",
-            "end_date": "01-03-2022",
         }
 
         # Setup case one
@@ -186,6 +190,20 @@ class BookingCreateTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["final_price"], 101)
         self.assertEqual(response.data["stay_length"], 10)
+
+    def test_create_booking_case_3_without_discount_1_day(self):
+        """
+        Test case for creating a booking without any discount applied.
+        In this case only 1 day of stay is tested. 
+        """
+        booking_data = {"property": self.property_three.pk}
+        booking_data.update(self.START_01_01_2022_END_01_01_2022)
+
+        response = self.client.post(self.list_url, booking_data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["final_price"], 10)
+        self.assertEqual(response.data["stay_length"], 1)
 
     def test_create_booking_case_4(self):
         """

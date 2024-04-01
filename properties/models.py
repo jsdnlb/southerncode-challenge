@@ -12,7 +12,9 @@ class Property(models.Model):
     base_price = models.FloatField(null=True, blank=True)
     """base_price: base price of the property per day"""
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False)
+    """created_at: Date of creation"""
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=False)
+    """updated_at: Date of update"""
 
     def __str__(self):
         return f"{self.name} - ${self.base_price}"
