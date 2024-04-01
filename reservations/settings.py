@@ -28,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['southern-code-80e3453d85d3.herokuapp.com','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['southern-code-80e3453d85d3.herokuapp.com']
 CORS_ALLOWED_ORIGINS = ['https://southern-code-80e3453d85d3.herokuapp.com']
 CSRF_TRUSTED_ORIGINS = ['https://southern-code-80e3453d85d3.herokuapp.com']
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
+    'drf_yasg',
     'properties',
     'pricing_rules',
     'bookings',
